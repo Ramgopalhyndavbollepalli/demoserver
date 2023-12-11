@@ -13,11 +13,13 @@ const jwtMW = exjwt({
     algorithms: ['HS256'],
 });
 
+require('dotenv').config();
+
 var connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "root",
-    database: "Nbad",
+    host: process.env.HOST,
+    user: process.env.DBUSER,
+    password: process.env.DBPASSWORD,
+    database: process.env.DATABASE,
     port:3306
   });
 
