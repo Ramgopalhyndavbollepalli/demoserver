@@ -16,5 +16,5 @@ app.use(routes);
 
 
 app.listen(port, ()=>{
-    console.log("Api Served at http://localhost:"+port);
+    console.log("Api Served at PORT:"+port);
 })

@@ -59,7 +59,6 @@ route.post("/app/signup", (req, res) => {
     var query1 = `SELECT * FROM Users WHERE email = ?`
     var query2 = `SELECT * FROM Users WHERE username = ?`
 
-    console.log(req.body);
 
 
 
@@ -149,7 +148,6 @@ route.post("/app/login", (req, res) => {
                     var user = new User(results[0])
                     if(bcrypt.compareSync(password,user.password)){
                         //SUCCESSFUL LOGIN
-                        // console.log(user)
                         var token = jwt.sign(user.getUser(), secretKey, { expiresIn: '1m' });
                         res.status(200).json({ message: "Login Successful", token:token });
                     }
@@ -224,7 +222,6 @@ route.put("/app/userDetails", verifyToken, (req, res) => {
     var values = [req.body.firstName, req.body.lastName, req.body.username, req.body.email, req.body.gender, req.body.mobile ]
     var user = new User(req.body);
     // user.password = encrypted_password;
-    console.log(user);
 
     connection.query(
         query, 
@@ -255,7 +252,7 @@ route.get("/app/userBudget", verifyToken, (req, res) => {
     //4. Send Budget array in response to the front-end 
 
     const user_id = req.user.id;
-    const query = `SELECT * FROM Budgets WHERE user_id = ?`
+    const query = `SELECT * FROM budgets WHERE user_id = ?`
     connection.query(
         query, 
         [user_id],
@@ -307,7 +304,7 @@ route.get("/app/userMonthlyBudget", verifyToken, (req, res) => {
     const user_id = req.user.id;
 
 
-    const query = `SELECT * FROM MonthlyBudgets WHERE user_id = ?`
+    const query = `SELECT * FROM monthlybudgets WHERE user_id = ?`
     connection.query(
         query, 
         [user_id],
@@ -340,7 +337,7 @@ route.get("/app/userMonthlyBudget/:month", verifyToken, (req, res) => {
     const month = req.params.month;
     const user_id = req.user.id;
 
-    const query = `SELECT * FROM MonthlyBudgets WHERE user_id = ? AND month= ?`
+    const query = `SELECT * FROM monthlybudgets WHERE user_id = ? AND month= ?`
     connection.query(
         query, 
         [user_id,month],
@@ -375,7 +372,7 @@ route.post("/app/userBudget", verifyToken, (req, res) => {
     //Redirect to User Budgets Page
     const user_id = req.user.id;
 
-    const query = `SELECT * FROM Budgets WHERE user_id = ? and item = ?`
+    const query = `SELECT * FROM budgets WHERE user_id = ? and item = ?`
     connection.query(
         query, 
         [user_id, req.body.item],
@@ -428,10 +425,9 @@ route.post("/app/userMonthlyBudget", verifyToken, (req, res) => {
     //6. Send Response -> Send monthly_budget_id
 
     const user_id = req.user.id;
-    console.log(req.body);
     
 
-    const query = `SELECT * FROM MonthlyBudgets WHERE user_id = ? and month = ? and year = ? and item = ?`
+    const query = `SELECT * FROM monthlybudgets WHERE user_id = ? and month = ? and year = ? and item = ?`
     connection.query(
         query, 
         [user_id, req.body.month, req.body.year, req.body.item],
@@ -522,8 +518,6 @@ route.put("/app/userMonthlyBudget", verifyToken, (req, res) => {
         actualbudget: req.body.actualbudget
     }
 
-    console.log(monthlyBudget_id)
-    console.log(updated_data)
     const query = `UPDATE monthlybudgets SET ? where monthlybudget_id = ${monthlyBudget_id}`
     connection.query(
         query,
@@ -550,7 +544,7 @@ route.delete("/app/userBudget", verifyToken, (req, res) => {
     //5. Send response.
 
     const budget_id = req.body.budget_id;
-    const query = `DELETE FROM Budgets where budget_id = ${budget_id}`
+    const query = `DELETE FROM budgets where budget_id = ${budget_id}`
     connection.query(
         query,
         (err, result, fields) =>{
