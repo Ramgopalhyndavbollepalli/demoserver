@@ -386,7 +386,7 @@ route.post("/app/userBudget", verifyToken, (req, res) => {
             }
             else{
                 // res.status(201).json({message:"No Budgets Available for the user"})
-                const budgetQuery = `INSERT INTO Budgets SET ?`
+                const budgetQuery = `INSERT INTO budgets SET ?`
                 var budgetData = {
                     user_id: user_id,
                     item : req.body.item,
