@@ -7,7 +7,7 @@
     "test": "jest",
     "serve": "nodemon index.js"
   },
-  "author": "Saisuraj Jindam",
+  "author": "Nitesh Banda",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
